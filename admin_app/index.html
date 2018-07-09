@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.2.js"></script>
+      <script src="./index.js"></script>
+   </head>
+   <style>
+      input[type=text], select {
+      width: 50%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      }
+      input[type=submit] {
+      width: 50%;
+      background-color: #3F51B5;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      }
+      input[type=submit]:hover {
+      background-color: #303F9F;
+      }
+      div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      }
+   </style>
+   <body>
+     <h1>Admin Panel</h1>
+      <div>
+         <form name="questionAnswerForm" action="javascript:publishQuestionAnswer()">
+            Question:<br>
+            <input type="text" id="question" name="question"><br>
+            Option A:<br>
+            <input type="text" id="optionA" name="optionA"><br>
+            Option B:<br>
+            <input type="text" id="optionB" name="optionB"><br>
+            Option C:<br>
+            <input type="text" id="optionC" name="optionC"><br>
+            Option D:<br>
+            <input type="text" id="optionD" name="optionD"><br>
+            Correct Answer:<br>
+            <input type="radio" name="correct_answer" id="a_correct" value="a_correct">A<br>
+            <input type="radio" name="correct_answer" id="b_correct" value="b_correct">B<br>
+            <input type="radio" name="correct_answer" id="c_correct" value="c_correct">C<br>
+            <input type="radio" name="correct_answer" id="d_correct" value="d_correct">D<br>
+            <input type="submit" value="Submit">
+         </form>
+      </div>
+   </body>
+</html>

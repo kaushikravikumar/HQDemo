@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeLeft"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="75dp"
+        android:paddingRight="75dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:text="QUESTION"
+        android:visibility="gone"
+        android:textSize="25sp"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="77dp" />
+
+    <Button
+        android:id="@+id/optionB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionC"
+        android:layout_centerHorizontal="true"
+        android:text="B"
+        android:background="@android:color/transparent"
+        android:onClick="pressedB"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="323dp" />
+
+    <Button
+        android:id="@+id/optionC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionD"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:text="C"
+        android:visibility="gone"
+        android:onClick="pressedC"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="384dp" />
+
+    <Button
+        android:id="@+id/optionD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="D"
+        android:onClick="pressedD"
+        android:visibility="gone"
+        android:background="@android:color/transparent"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="447dp" />
+
+    <Button
+        android:id="@+id/optionA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/optionB"
+        android:layout_centerHorizontal="true"
+        android:text="A"
+        android:onClick="pressedA"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="257dp" />
+
+    <TextView
+        android:id="@+id/numPlayers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="26dp"
+        android:layout_marginTop="11dp"
+        android:text="" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="155dp" />
+
+    <TextView
+        android:id="@+id/timeLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/numPlayers"
+        android:layout_marginStart="22dp"
+        android:background="@drawable/circle"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:text=""
+        android:visibility="gone"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="192dp"
+        android:text="ANSWER"
+        android:paddingLeft="75dp"
+        android:paddingRight="75dp"
+        android:visibility="gone"
+        android:textSize="18sp" />
+
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/answerResultsChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/loadingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="219dp"
+        android:text="Waiting for question" />
+
+    <ImageView
+        android:id="@+id/questionImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="175dp"
+        app:srcCompat="@drawable/cali" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/numPlayers"
+        app:srcCompat="@drawable/usericon" />
+
+</RelativeLayout>
