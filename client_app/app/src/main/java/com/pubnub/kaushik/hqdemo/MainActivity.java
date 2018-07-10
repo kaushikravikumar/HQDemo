@@ -39,6 +39,7 @@ import android.content.SharedPreferences.Editor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,57 +84,18 @@ public class MainActivity extends AppCompatActivity {
         PNConfiguration pnConfiguration = new PNConfiguration();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("pref", 0); // 0 - for private mode
-        String uuid;
-        if (!pref.contains("uuid")) {
-            Editor editor = pref.edit();
-            uuid = UUID.randomUUID().toString();
-            editor.putString("uuid", uuid);
-            editor.commit();
-        } else {
-            uuid = pref.getString("uuid", null);
-        }
-        pnConfiguration.setUuid(uuid);
+
+        pnConfiguration.setUuid(pref.getString("uuid", null));
         pnConfiguration.setSubscribeKey(Constants.PUBNUB_SUBSCRIBE_KEY);
         pnConfiguration.setPublishKey(Constants.PUBNUB_PUBLISH_KEY);
-//        pnConfiguration.setSecretKey(Constants.PUBNUB_SECRET_KEY);
-        pnConfiguration.setAuthKey(Constants.PUBNUB_USER_AUTH_KEY);
+        pnConfiguration.setAuthKey(pref.getString("uuid", null));
         pnConfiguration.setSecure(true);
         pubNub = new PubNub(pnConfiguration);
 
-//        // Sets up authentication key and establishes read write permissions.
-//        pubNub.grant()
-//                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL)) //channels to allow grant on
-//                .authKeys(Arrays.asList(Constants.PUBNUB_USER_AUTH_KEY)) // the keys we are provisioning
-//                .write(false) // allow those keys to write (false by default)
-//                .manage(false) // allow those keys to manage channel groups (false by default)
-//                .read(true) // allow keys to read the subscribe feed (false by default)
-//                .ttl(0) // how long those keys will remain valid (0 for eternity)
-//                .async(new PNCallback<PNAccessManagerGrantResult>() {
-//                    @Override
-//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-//                        Log.d("CAN READ", "QUESTION/ANSWER RESULTS");
-//                        updateUI();
-//                    }
-//                });
-//
-//        pubNub.grant()
-//                .channels(Arrays.asList(Constants.SUBMIT_ANSWER_CHANNEL))
-//                .authKeys(Arrays.asList(Constants.PUBNUB_USER_AUTH_KEY))
-//                .write(true)
-//                .manage(false)
-//                .read(false)
-//                .ttl(10)
-//                .async(new PNCallback<PNAccessManagerGrantResult>() {
-//                    @Override
-//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-//                        Log.d("CAN FIRE", "NOW");
-//                    }
-//                });
         updateUI();
     }
 
     private void updateUI() {
-        Log.d("UPDATE", "UI");
         pubNub.addListener(new SubscribeCallback() {
             @Override
             public void status(PubNub pubnub, PNStatus status) {
@@ -147,48 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         // NEW QUESTION HAS JUST BEEN POSTED
                         if (message.getChannel().equals("question_post")) {
-                            questionText = message.getMessage().getAsJsonObject().get("question").getAsString();
-                            optionAText = message.getMessage().getAsJsonObject().get("optionA").getAsString();
-                            optionBText = message.getMessage().getAsJsonObject().get("optionB").getAsString();
-                            optionCText = message.getMessage().getAsJsonObject().get("optionC").getAsString();
-                            optionDText = message.getMessage().getAsJsonObject().get("optionD").getAsString();
-
-                            question.setText(questionText);
-                            question.setVisibility(View.VISIBLE);
-                            questionImage.setVisibility(View.VISIBLE);
-                            timeLeft.setVisibility(View.VISIBLE);
-
-                            aButton.setText(optionAText);
-                            aButton.setVisibility(View.VISIBLE);
-
-                            bButton.setText(optionBText);
-                            bButton.setVisibility(View.VISIBLE);
-
-                            cButton.setText(optionCText);
-                            cButton.setVisibility(View.VISIBLE);
-
-                            dButton.setText(optionDText);
-                            dButton.setVisibility(View.VISIBLE);
-
-                            loadingSpinner.setVisibility(View.GONE);
-                            loadingText.setVisibility(View.GONE);
-
-                            new CountDownTimer(10000, 1000) {
-
-                                public void onTick(long millisUntilFinished) {
-                                    timeLeft.setText(String.valueOf(millisUntilFinished / 1000));
-                                }
-
-                                public void onFinish() {
-                                    makeRequestToPubNubFunction(optionChosen);
-                                    aButton.setVisibility(View.GONE);
-                                    bButton.setVisibility(View.GONE);
-                                    cButton.setVisibility(View.GONE);
-                                    dButton.setVisibility(View.GONE);
-                                    questionImage.setVisibility(View.GONE);
-                                }
-                            }.start();
-
+                            showQuestion(message);
                         }
                         // NEW ANSWER RESULT HAS JUST BEEN POSTED
                         else {
@@ -204,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 // Empty, not needed.
             }
         });
+
         pubNub.subscribe()
                 .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL)) // subscribe to channels
-                .withPresence()
                 .execute();
 
         pubNub.hereNow()
@@ -227,6 +148,51 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 });
+    }
+
+    private void showQuestion(PNMessageResult message)
+    {
+        questionText = message.getMessage().getAsJsonObject().get("question").getAsString();
+        optionAText = message.getMessage().getAsJsonObject().get("optionA").getAsString();
+        optionBText = message.getMessage().getAsJsonObject().get("optionB").getAsString();
+        optionCText = message.getMessage().getAsJsonObject().get("optionC").getAsString();
+        optionDText = message.getMessage().getAsJsonObject().get("optionD").getAsString();
+
+        question.setText(questionText);
+        question.setVisibility(View.VISIBLE);
+        questionImage.setVisibility(View.VISIBLE);
+        timeLeft.setVisibility(View.VISIBLE);
+
+        aButton.setText(optionAText);
+        aButton.setVisibility(View.VISIBLE);
+
+        bButton.setText(optionBText);
+        bButton.setVisibility(View.VISIBLE);
+
+        cButton.setText(optionCText);
+        cButton.setVisibility(View.VISIBLE);
+
+        dButton.setText(optionDText);
+        dButton.setVisibility(View.VISIBLE);
+
+        loadingSpinner.setVisibility(View.GONE);
+        loadingText.setVisibility(View.GONE);
+
+        new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timeLeft.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            public void onFinish() {
+                makeRequestToPubNubFunction(optionChosen);
+                aButton.setVisibility(View.GONE);
+                bButton.setVisibility(View.GONE);
+                cButton.setVisibility(View.GONE);
+                dButton.setVisibility(View.GONE);
+                questionImage.setVisibility(View.GONE);
+            }
+        }.start();
     }
 
     private void showCorrectAnswer(PNMessageResult message) {
@@ -262,11 +228,16 @@ public class MainActivity extends AppCompatActivity {
         int countC = message.getMessage().getAsJsonObject().get("optionC").getAsInt();
         int countD = message.getMessage().getAsJsonObject().get("optionD").getAsInt();
 
+        Log.d("A", String.valueOf(countA));
+        Log.d("B", String.valueOf(countB));
+        Log.d("C", String.valueOf(countC));
+        Log.d("D", String.valueOf(countD));
+
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, countA));
-        entries.add(new BarEntry(1, countB));
-        entries.add(new BarEntry(2, countC));
-        entries.add(new BarEntry(3, countD));
+        entries.add(new BarEntry(0, countD));
+        entries.add(new BarEntry(1, countC));
+        entries.add(new BarEntry(2, countB));
+        entries.add(new BarEntry(3, countA));
         BarDataSet dataSet = new BarDataSet(entries, "Results");
         dataSet.setDrawValues(true);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -357,12 +328,5 @@ public class MainActivity extends AppCompatActivity {
         cButton.setBackgroundColor(0x00000000);
         dButton.setBackgroundColor(Color.rgb(63, 81, 181));
         optionChosen = "optionD";
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        updateUI();
     }
 }

@@ -7,6 +7,7 @@ function publishQuestionAnswer() {
         secretKey: "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0",
         ssl: true
     });
+
 //     pubnub.grant(
 //     {
 //         authKeys: ['userauthkey'],
@@ -148,7 +149,6 @@ function getResults() {
 
     firstRequest.onreadystatechange = function() {
         if (firstRequest.readyState == XMLHttpRequest.DONE) {
-            console.log(JSON.parse(firstRequest.responseText));
             var countA = JSON.parse(firstRequest.responseText).optionA;
 
             secondRequest.onreadystatechange = function() {
@@ -175,6 +175,7 @@ function getResults() {
         }
     };
     firstRequest.send(JSON.stringify(firstjsonReq));
+    
     // // Waits a second then reset counters
     setTimeout(resetCounters, 1000);
 }
