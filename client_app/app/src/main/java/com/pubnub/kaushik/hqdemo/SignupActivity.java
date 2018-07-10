@@ -14,9 +14,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.pubnub.kaushik.hqdemo.Util.MyJSONObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.pubnub.kaushik.hqdemo.Util.Constants;
+import com.android.volley.toolbox.JsonObjectRequest;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,15 +45,19 @@ public class SignupActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         signUp = findViewById(R.id.signup);
 
-        pref = getApplicationContext().getSharedPreferences("pref", 0); // 0 - for private mode
+        // SharedPreferences object used to store UUID locally on device.
+        pref = getApplicationContext().getSharedPreferences("pref", 0);
 
-        // If user doesn't have uuid create a random one! Then grant access to read/write for PubNub channels.
+        // If user already has created account and has UUID, then go to MainActivity.
         if (pref.contains("uuid")) {
-            Log.d("ACCOUNT ", "ALREADY MADE");
             startActivity(new Intent(SignupActivity.this, MainActivity.class));
         }
     }
 
+    /*
+        This method first generates a random UUID for the user's device and then makes a request to our Grant Access PubNub function,
+        which will grant the necessary read/write access permissions to the user's unique auth key (their UUID).
+     */
     private void grantAccess() {
         // SET UUID in SharedPreferences
         SharedPreferences.Editor editor = pref.edit();
@@ -67,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
             JSONObject requestParams = new JSONObject();
             requestParams.put("uuid", pref.getString("uuid", null));
 
-            MyJSONObjectRequest jsonObjectRequest = new MyJSONObjectRequest
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                     (Request.Method.POST, url, requestParams, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -79,11 +84,9 @@ public class SignupActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error) {
                             Log.d("Error", error.toString());
                         }
-                    })
-            {
+                    }) {
                 @Override
-                public Map<String, String> getHeaders()
-                {
+                public Map<String, String> getHeaders() {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json; charset=utf-8");
                     headers.put("User-agent", "user");
@@ -97,10 +100,12 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-
-    public void signUp(View v)
-    {
-        // THIS DEMO WON'T DO ANYTHING WITH USERNAME AND PASSWORD
+/*
+    This method is invoked when a user presses the sign up button.
+ */
+    public void signUp(View v) {
+        // For this demo, we will not do anything with the username and password,
+        // since the UUID is randomly generated for each device playing the game.
         grantAccess();
     }
 }

@@ -8,31 +8,6 @@ function publishQuestionAnswer() {
         ssl: true
     });
 
-//     pubnub.grant(
-//     {
-//         authKeys: ['userauthkey'],
-//         channels: ['question_post', 'answer_post', 'presence'],
-//         read: true,
-//         write: false,
-//         ttl: 14400
-//     },
-//     function (status) {
-//         console.log(status);
-//     }
-// );
-//     pubnub.grant(
-//       {
-//           authKeys: ['userauthkey'],
-//           channels: ['submitAnswer'],
-//           read: false,
-//           write: true,
-//           ttl: 14400
-//       },
-//       function(status){
-//         console.log(status);
-//       }
-//     );
-
       pubnub.publish({
               message: {
                   "question": document.getElementById('question').value,
@@ -74,8 +49,6 @@ var fourthjsonReq = {
     "which": "d"
 };
 
-var jsonRequests = [firstjsonReq, secondjsonReq, thirdjsonReq, fourthjsonReq];
-
 function getResults() {
     var correctAnswer;
     if (document.getElementById('a_correct').checked) {
@@ -105,48 +78,6 @@ function getResults() {
     fourthRequest.open('POST', url + '?route=getcount');
     fourthRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-
-    // var answerResults = {
-    //     "optionA": 0,
-    //     "optionB": 0,
-    //     "optionC": 0,
-    //     "optionD": 0
-    // };
-    //
-    // var optionKeys = ["optionA", "optionB", "optionC", "optionD"];
-    //
-    //     var f = (function(){
-    //     var xhr = [], i;
-    //     for(i = 0; i < 4; i++){ //for loop
-    //       (function(i){
-    //             xhr[i] = new XMLHttpRequest();
-    //             xhr[i].open("POST", url + '?route=getcount');
-    //             xhr[i].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    //             xhr[i].onreadystatechange = function(){
-    //                 if (xhr[i].readyState == XMLHttpRequest.DONE){
-    //                   answerResults[optionKeys[i]] = JSON.parse(xhr[i].responseText)[optionKeys[i]];
-    //                 }
-    //             };
-    //             xhr[i].send(JSON.stringify(jsonRequests[i]));
-    //             })(i);
-    //     }
-    //     })();
-
-    // for (i = 0; i < 4; i++) {
-    //   xmlRequest[i] = new XMLHttpRequest();
-    //   xmlRequest.open('POST', url + '?route=getcount');
-    //   xmlRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    //   xmlRequest.onreadystatechange = function() {
-    //       if(xmlRequest.readyState == XMLHttpRequest.DONE)
-    //       {
-    //           console.log(JSON.parse(xmlRequest.responseText).optionKeys[i]);
-    //           // answerResults.optionKeys[i] = JSON.parse(xmlRequest.responseText).optionKeys[i];
-    //       }
-    //   };
-    //   xmlRequest.send(JSON.stringify(jsonRequests[i]));
-    // }
-    // console.log(answerResults);
-
     firstRequest.onreadystatechange = function() {
         if (firstRequest.readyState == XMLHttpRequest.DONE) {
             var countA = JSON.parse(firstRequest.responseText).optionA;
@@ -175,7 +106,7 @@ function getResults() {
         }
     };
     firstRequest.send(JSON.stringify(firstjsonReq));
-    
+
     // // Waits a second then reset counters
     setTimeout(resetCounters, 1000);
 }

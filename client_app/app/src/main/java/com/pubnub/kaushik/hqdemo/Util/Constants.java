@@ -5,10 +5,6 @@ public class Constants {
 
     public static String PUBNUB_PUBLISH_KEY = "pub-c-cfe3c983-4203-40d2-8f53-7e27c1be5e7b";
 
-    public static String PUBNUB_SECRET_KEY = "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0";
-
-//    public static String PUBNUB_USER_AUTH_KEY = "userauthkey";
-
     public static String POST_QUESTION_CHANNEL = "question_post";
 
     public static String POST_ANSWER_CHANNEL = "answer_post";

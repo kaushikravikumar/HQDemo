@@ -52,12 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
     private PubNub pubNub;
 
-    private String questionText, optionAText, optionBText, optionCText, optionDText, optionChosen;
+    private String questionText, optionAText, optionBText, optionCText, optionDText;
 
     private HorizontalBarChart answerResultsChart;
 
     private ImageView questionImage;
 
+    private String optionChosen; // Must be optionA, optionB, optionC, or optionD. Use the constants defined below.
+
+    private final String OPTION_A = "optionA";
+    private final String OPTION_B = "optionB";
+    private final String OPTION_C = "optionC";
+    private final String OPTION_D = "optionD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private void initPubNub() {
         PNConfiguration pnConfiguration = new PNConfiguration();
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("pref", 0); // 0 - for private mode
+        // Local Device Storage to store user's UUID (Unique User ID)
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("pref", 0);
 
         pnConfiguration.setUuid(pref.getString("uuid", null));
         pnConfiguration.setSubscribeKey(Constants.PUBNUB_SUBSCRIBE_KEY);
@@ -127,11 +134,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         pubNub.subscribe()
-                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL)) // subscribe to channels
+                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL)) // subscribes to channels
                 .execute();
 
+        // Used to maintain the current occupancy of the channels,
+        // or in other words, players playing the game at the moment.
         pubNub.hereNow()
-                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL))
+                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL))
                 .includeUUIDs(true)
                 .async(new PNCallback<PNHereNowResult>() {
                     @Override
@@ -143,15 +152,21 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                numPlayers.setText(String.valueOf(result.getTotalOccupancy()));
+                                numPlayers.setText(String.valueOf(result.getTotalOccupancy())); // Displays current number of players
                             }
                         });
                     }
                 });
     }
 
-    private void showQuestion(PNMessageResult message)
-    {
+    /**
+     * This method updates UI elements such as the question TextView and the buttons showing the
+     * answer options. Also starts 10 second countdown timer. Once the timer is finished, it will
+     * invoke our method makeRequestToPubNubFunction() and prevent the user from further sending a response.
+     *
+     * @param message PNMessageResult object from subscribe callback that has the question and each option encoded in JSON.
+     */
+    private void showQuestion(PNMessageResult message) {
         questionText = message.getMessage().getAsJsonObject().get("question").getAsString();
         optionAText = message.getMessage().getAsJsonObject().get("optionA").getAsString();
         optionBText = message.getMessage().getAsJsonObject().get("optionB").getAsString();
@@ -195,6 +210,11 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * This method displays what correct answer was and tells user if they answered correct or not.
+     *
+     * @param message PNMessageResult object from subscribe callback. Includes correct answer in JSON.
+     */
     private void showCorrectAnswer(PNMessageResult message) {
         String correct = message.getMessage().getAsJsonObject().get("correct").getAsString();
 
@@ -222,17 +242,18 @@ public class MainActivity extends AppCompatActivity {
         answer.setText(correctAnswerMessage);
     }
 
+    /**
+     * Displays stats of how many users answered each option on Horizontal Bar Graph.
+     *
+     * @param message PNMessageResult object from subscribe callback. Contains data of how many users answered each option.
+     */
     private void showAnswerResults(PNMessageResult message) {
         int countA = message.getMessage().getAsJsonObject().get("optionA").getAsInt();
         int countB = message.getMessage().getAsJsonObject().get("optionB").getAsInt();
         int countC = message.getMessage().getAsJsonObject().get("optionC").getAsInt();
         int countD = message.getMessage().getAsJsonObject().get("optionD").getAsInt();
 
-        Log.d("A", String.valueOf(countA));
-        Log.d("B", String.valueOf(countB));
-        Log.d("C", String.valueOf(countC));
-        Log.d("D", String.valueOf(countD));
-
+        // Enter them backwards since BarEntry ArrayLists work like a stack.
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(0, countD));
         entries.add(new BarEntry(1, countC));
@@ -273,6 +294,9 @@ public class MainActivity extends AppCompatActivity {
         answerResultsChart.setVisibility(View.VISIBLE);
     }
 
+    /** Uses PubNub fire method to efficiently send user's answer over to submitAnswer channel.
+     * @param optionChosen this is the option that the user has chosen.
+     */
     private void makeRequestToPubNubFunction(final String optionChosen) {
         try {
             JSONObject answerObj = new JSONObject();
@@ -297,36 +321,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /*
+        Called when user presses A button.
+     */
     public void pressedA(View v) {
         aButton.setBackgroundColor(Color.rgb(63, 81, 181));
         bButton.setBackgroundColor(0x00000000);
         cButton.setBackgroundColor(0x00000000);
         dButton.setBackgroundColor(0x00000000);
-        optionChosen = "optionA";
+        optionChosen = OPTION_A;
     }
 
+    /*
+        Called when user presses B button.
+     */
     public void pressedB(View v) {
         aButton.setBackgroundColor(0x00000000);
         bButton.setBackgroundColor(Color.rgb(63, 81, 181));
         cButton.setBackgroundColor(0x00000000);
         dButton.setBackgroundColor(0x00000000);
-        optionChosen = "optionB";
+        optionChosen = OPTION_B;
     }
 
+    /*
+        Called when user presses C button.
+     */
     public void pressedC(View v) {
         aButton.setBackgroundColor(0x00000000);
         bButton.setBackgroundColor(0x00000000);
         cButton.setBackgroundColor(Color.rgb(63, 81, 181));
         dButton.setBackgroundColor(0x00000000);
-        optionChosen = "optionC";
+        optionChosen = OPTION_C;
     }
 
+    /*
+        Called when user presses D button.
+     */
     public void pressedD(View v) {
         aButton.setBackgroundColor(0x00000000);
         bButton.setBackgroundColor(0x00000000);
         cButton.setBackgroundColor(0x00000000);
         dButton.setBackgroundColor(Color.rgb(63, 81, 181));
-        optionChosen = "optionD";
+        optionChosen = OPTION_D;
     }
 }
