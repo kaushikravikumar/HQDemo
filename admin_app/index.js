@@ -1,6 +1,12 @@
 var pubnub;
 
-const url = 'https://pubsub.pubnub.com/v1/blocks/sub-key/sub-c-3436c79c-78a1-11e8-a43f-d6f8762e29f7/getanswers';
+const get_answers_url = 'https://pubsub.pubnub.com/v1/blocks/sub-key/sub-c-3436c79c-78a1-11e8-a43f-d6f8762e29f7/getanswers';
+
+const subscribe_key = "sub-c-3436c79c-78a1-11e8-a43f-d6f8762e29f7";
+
+const publish_key = "pub-c-cfe3c983-4203-40d2-8f53-7e27c1be5e7b";
+
+const secret_key = "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0";
 
 const firstjsonReqOptions = {
     "body": {
@@ -31,9 +37,9 @@ const fourthjsonReqOptions = {
 */
 function publishQuestionAnswer() {
     pubnub = new PubNub({
-        subscribeKey: "sub-c-3436c79c-78a1-11e8-a43f-d6f8762e29f7",
-        publishKey: "pub-c-cfe3c983-4203-40d2-8f53-7e27c1be5e7b",
-        secretKey: "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0",
+        subscribeKey: subscribe_key,
+        publishKey: publish_key,
+        secretKey: secret_key,
         ssl: true
     });
 
@@ -80,13 +86,13 @@ function getResults() {
         correctAnswer = "optionD";
     }
 
-    return request(url + '?route=getcount', 'POST', firstjsonReqOptions).then((firstResponse) => {
+    return request(get_answers_url + '?route=getcount', 'POST', firstjsonReqOptions).then((firstResponse) => {
         var countA = firstResponse.optionA;
-        return request(url + '?route=getcount', 'POST', secondjsonReqOptions).then((secondResponse) => {
+        return request(get_answers_url + '?route=getcount', 'POST', secondjsonReqOptions).then((secondResponse) => {
             var countB = secondResponse.optionB;
-            return request(url + '?route=getcount', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
+            return request(get_answers_url + '?route=getcount', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
                 var countC = thirdResponse.optionC;
-                return request(url + '?route=getcount', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
+                return request(get_answers_url + '?route=getcount', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
                     var countD = fourthResponse.optionD;
                     publishMessage(countA, countB, countC, countD, correctAnswer);
                     // Waits a second then reset counters
@@ -137,10 +143,10 @@ function publishMessage(countA, countB, countC, countD, correctAnswer) {
 * We will specify the route as 'reset', so the appropriate function is executed.
 */
 function resetCounters() {
-    return request(url + '?route=reset', 'POST', firstjsonReqOptions).then((firstResponse) => {
-        return request(url + '?route=reset', 'POST', secondjsonReqOptions).then((secondResponse) => {
-            return request(url + '?route=reset', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
-                return request(url + '?route=reset', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
+    return request(get_answers_url + '?route=reset', 'POST', firstjsonReqOptions).then((firstResponse) => {
+        return request(get_answers_url + '?route=reset', 'POST', secondjsonReqOptions).then((secondResponse) => {
+            return request(get_answers_url + '?route=reset', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
+                return request(get_answers_url + '?route=reset', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
                     console.log('Reset all counters!');
                 })
             })
