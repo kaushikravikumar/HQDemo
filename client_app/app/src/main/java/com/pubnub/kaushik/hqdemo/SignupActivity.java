@@ -59,12 +59,6 @@ public class SignupActivity extends AppCompatActivity {
         which will grant the necessary read/write access permissions to the user's unique auth key (their UUID).
      */
     private void grantAccess() {
-        // SET UUID in SharedPreferences
-        SharedPreferences.Editor editor = pref.edit();
-        String uuid = UUID.randomUUID().toString();
-        editor.putString("uuid", uuid);
-        editor.commit();
-
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         try {
@@ -100,11 +94,16 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 /*
-    This method is invoked when a user presses the sign up button.
+    This method is invoked when a user presses the sign up button. For this demo, we will not do anything with the username and password,
+    since the UUID is randomly generated for each device playing the game.
  */
     public void signUp(View v) {
-        // For this demo, we will not do anything with the username and password,
-        // since the UUID is randomly generated for each device playing the game.
+        // SET UUID in SharedPreferences
+        SharedPreferences.Editor editor = pref.edit();
+        String uuid = UUID.randomUUID().toString();
+        editor.putString("uuid", uuid);
+        editor.commit();
+
         grantAccess();
     }
 }
