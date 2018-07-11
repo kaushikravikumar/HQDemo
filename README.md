@@ -12,7 +12,9 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 5. Ensure that PubNub Functions module is started and running.
 
 **Android App Setup**
+
 6. Go to Key Info and take note of your subscribe key and publish key. You will need to go to the Constants.java class and enter these credentials where it says INSERT_SUBSCRIBE_KEY and INSERT_PUBLISH_KEY respectively. Enter grantAccess PubNub function URL in Constants.java class.
+
 7. Ensure that you have the following gradle dependencies:
 
 Module Build.gradle
