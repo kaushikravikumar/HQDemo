@@ -46,8 +46,11 @@ Project Build.gradle
 ```  
 
 **Javascript Web App setup**
+
 9. Enter getAnswers PubNub Functions URL into code, where it says ENTER_GET_ANSWERS_PFUNC_URL on the top of index.js file.
+
 10. Enter Subscribe Key, Publish Key, and Secret Key at the top of the index.js file also.
+
 
 Congrats! You have successfully set up HQ Demo App and it is ready to run.
 
