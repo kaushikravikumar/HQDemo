@@ -67,13 +67,12 @@ public class SignupActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = Constants.GRANT_ACCESS_FUNCTION_URL;
         try {
             JSONObject requestParams = new JSONObject();
             requestParams.put("uuid", pref.getString("uuid", null));
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.POST, url, requestParams, new Response.Listener<JSONObject>() {
+                    (Request.Method.POST, Constants.GRANT_ACCESS_FUNCTION_URL, requestParams, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             Toast.makeText(SignupActivity.this, "You've been signed up!", Toast.LENGTH_LONG).show();
