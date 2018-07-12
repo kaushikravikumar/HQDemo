@@ -8,7 +8,7 @@ const publish_key = "pub-c-cfe3c983-4203-40d2-8f53-7e27c1be5e7b";
 
 const secret_key = "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0";
 
-const jsonReqOptions = {
+var jsonReqOptions = {
     "body": {
         "which": "A"
     }
