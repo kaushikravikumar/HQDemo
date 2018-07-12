@@ -94,7 +94,7 @@ function getResults() {
                 var countC = thirdResponse.optionC;
                 return request(get_answers_url + '?route=getcount', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
                     var countD = fourthResponse.optionD;
-                    publishMessage(countA, countB, countC, countD, correctAnswer);
+                    publishAnswerResults(countA, countB, countC, countD, correctAnswer);
                     // Waits a second then reset counters
                     setTimeout(resetCounters, 1000);
                 })
@@ -114,7 +114,7 @@ function getResults() {
 * @param {Integer} countD number of users that answered optionD
 * @param {String} correctAnswer either 'optionA', 'optionB', 'optionC', or 'optionD'
 */
-function publishMessage(countA, countB, countC, countD, correctAnswer) {
+function publishAnswerResults(countA, countB, countC, countD, correctAnswer) {
     pubnub.publish({
             message: {
                 "optionA": countA,
