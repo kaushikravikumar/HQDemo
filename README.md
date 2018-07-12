@@ -18,7 +18,7 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 7. Ensure that you have the following gradle dependencies:
 
 Module Build.gradle
-``` java
+``` javascript
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
@@ -30,7 +30,7 @@ Module Build.gradle
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 ```
 Project Build.gradle
-``` css
+``` Javascript
     repositories {
         maven { url 'https://jitpack.io' }
         google()
