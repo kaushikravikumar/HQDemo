@@ -5,7 +5,7 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 # QuickStart
 
 **PubNub Functions Setup**
-1. Sign Up for PubNub and create a new Project. **(It's Free)**
+1. Sign Up for [PubNub](https://admin.pubnub.com/) and create a new Project. **(It's Free)**
 2. Go to Key Info and enable Presence, PubNub Functions, and Access Manager.
 3. Create Functions module and within it create 3 functions: **getAnswers, submitAnswer, and grantAccess.**
 4. Enter code for each function into its respective code editor on PubNub functions page.
