@@ -8,27 +8,9 @@ const publish_key = "pub-c-cfe3c983-4203-40d2-8f53-7e27c1be5e7b";
 
 const secret_key = "sec-c-NDllYmU5ZTItY2Y3OS00N2UzLThlNWUtYTc0ODM2ODhkZGM0";
 
-const firstjsonReqOptions = {
+const jsonReqOptions = {
     "body": {
-        "which": "a"
-    }
-};
-
-const secondjsonReqOptions = {
-    "body": {
-        "which": "b"
-    }
-};
-
-const thirdjsonReqOptions = {
-    "body": {
-        "which": "c"
-    }
-};
-
-const fourthjsonReqOptions = {
-    "body": {
-        "which": "d"
+        "which": "A"
     }
 };
 
@@ -86,13 +68,17 @@ function getResults() {
         correctAnswer = "optionD";
     }
 
-    return request(get_answers_url + '?route=getcount', 'POST', firstjsonReqOptions).then((firstResponse) => {
+    jsonReqOptions.body.which = "A";
+    return request(get_answers_url + '?route=getcount', 'POST', jsonReqOptions).then((firstResponse) => {
         var countA = firstResponse.optionA;
-        return request(get_answers_url + '?route=getcount', 'POST', secondjsonReqOptions).then((secondResponse) => {
+        jsonReqOptions.body.which = "B";
+        return request(get_answers_url + '?route=getcount', 'POST', jsonReqOptions).then((secondResponse) => {
             var countB = secondResponse.optionB;
-            return request(get_answers_url + '?route=getcount', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
+            jsonReqOptions.body.which = "C";
+            return request(get_answers_url + '?route=getcount', 'POST', jsonReqOptions).then((thirdResponse) => {
                 var countC = thirdResponse.optionC;
-                return request(get_answers_url + '?route=getcount', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
+                jsonReqOptions.body.which = "D";
+                return request(get_answers_url + '?route=getcount', 'POST', jsonReqOptions).then((fourthResponse) => {
                     var countD = fourthResponse.optionD;
                     publishAnswerResults(countA, countB, countC, countD, correctAnswer);
                     // Waits a second then reset counters
@@ -143,10 +129,14 @@ function publishAnswerResults(countA, countB, countC, countD, correctAnswer) {
 * We will specify the route as 'reset', so the appropriate function is executed.
 */
 function resetCounters() {
-    return request(get_answers_url + '?route=reset', 'POST', firstjsonReqOptions).then((firstResponse) => {
-        return request(get_answers_url + '?route=reset', 'POST', secondjsonReqOptions).then((secondResponse) => {
-            return request(get_answers_url + '?route=reset', 'POST', thirdjsonReqOptions).then((thirdResponse) => {
-                return request(get_answers_url + '?route=reset', 'POST', fourthjsonReqOptions).then((fourthResponse) => {
+    jsonReqOptions.body.which = "A";
+    return request(get_answers_url + '?route=reset', 'POST', jsonReqOptions).then((firstResponse) => {
+      jsonReqOptions.body.which = "B";
+        return request(get_answers_url + '?route=reset', 'POST', jsonReqOptions).then((secondResponse) => {
+          jsonReqOptions.body.which = "C";
+            return request(get_answers_url + '?route=reset', 'POST', jsonReqOptions).then((thirdResponse) => {
+              jsonReqOptions.body.which = "D";
+                return request(get_answers_url + '?route=reset', 'POST', jsonReqOptions).then((fourthResponse) => {
                     console.log('Reset all counters!');
                 })
             })

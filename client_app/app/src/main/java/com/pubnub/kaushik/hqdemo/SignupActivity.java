@@ -18,7 +18,6 @@ import com.android.volley.toolbox.Volley;
 import com.pubnub.kaushik.hqdemo.Util.Constants;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
