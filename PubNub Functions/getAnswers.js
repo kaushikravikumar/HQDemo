@@ -11,108 +11,43 @@ export default (request, response) => {
         reset: {}
     };
 
-    // Gets count of each answer option.
+    // Gets count of answer option.
     controllers.getcount.post = () => {
         var whichOption = JSON.parse(request.body).which;
+        var option_string = `option${ whichOption }`;
 
-        // send response with counts for a
-        if (whichOption === "a") {
-            return kvstore.getCounter("optionA").then((countA) => {
-                console.log('countA', countA);
+        // Validates user input on the backend
+        if (whichOption !== 'A' &&
+            whichOption !== 'B' && whichOption !== 'C' &&
+            whichOption !== 'D') {
+            response.status = 400;
+            return response.send();
+        } else {
+            return kvstore.getCounter(option_string).then((count) => {
                 var jsonRes = {
-                    "optionA": countA
-                };
-                return response.send(jsonRes);
-            });
-        }
-        // send response with counts for b
-        else if (whichOption === "b") {
-            return kvstore.getCounter("optionB").then((countB) => {
-                console.log('countB', countB);
-                var jsonRes = {
-                    "optionB": countB
-                };
-                return response.send(jsonRes);
-            });
-        }
-        // send response with counts for c
-        else if (whichOption === "c") {
-            return kvstore.getCounter("optionC").then((countC) => {
-                console.log('countC', countC);
-                var jsonRes = {
-                    "optionC": countC
-                };
-                return response.send(jsonRes);
-            });
-        }
-
-        // send response with counts for d
-        else if (whichOption === "d") {
-            return kvstore.getCounter("optionD").then((countD) => {
-                console.log('countD', countD);
-                var jsonRes = {
-                    "optionD": countD
+                    [option_string]: count
                 };
                 return response.send(jsonRes);
             });
         }
     };
 
-    // resets the answer counts
+    // resets the answer count of answer option.
     controllers.reset.post = () => {
         var whichOption = JSON.parse(request.body).which;
+        var option_string = `option${ whichOption }`;
 
-        // If call was made with parameter which as a
-        if (whichOption === "a") {
-            return kvstore.getCounter("optionA").then((countA) => {
-                if (countA !== 0) {
-                    console.log('Reset A');
-                    return kvstore.incrCounter("optionA", -1 * countA).then((newCountA) => {
-                        return response.send();
-                    });
-                } else {
-                    return response.send();
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-        // If call was made with parameter which as b
-        else if (whichOption === "b") {
-            return kvstore.getCounter("optionB").then((countB) => {
-                if (countB !== 0) {
-                    console.log('Reset B');
-                    return kvstore.incrCounter("optionB", -1 * countB).then((newCountB) => {
-                        return response.send();
-                    });
-                } else {
-                    return response.send();
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-        // If call was made with parameter which as c
-        else if (whichOption === "c") {
-            return kvstore.getCounter("optionC").then((countC) => {
-                if (countC !== 0) {
-                    console.log('Reset C');
-                    return kvstore.incrCounter("optionC", -1 * countC).then((newCountC) => {
-                        return response.send();
-                    });
-                } else {
-                    return response.send();
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-        // If call was made with parameter which as d
-        else if (whichOption === "d") {
-            return kvstore.getCounter("optionD").then((countD) => {
-                if (countD !== 0) {
-                    console.log('Reset D');
-                    return kvstore.incrCounter("optionD", -1 * countD).then((newCountD) => {
+        // Validates user input on backend  
+        if (whichOption !== 'A' &&
+            whichOption !== 'B' && whichOption !== 'C' &&
+            whichOption !== 'D') {
+            response.status = 400;
+            return response.send();
+        } else {
+            return kvstore.getCounter(option_string).then((count) => {
+                if (count !== 0) {
+                    console.log('Reset ' + whichOption);
+                    return kvstore.incrCounter(option_string, -1 * count).then((newCount) => {
                         return response.send();
                     });
                 } else {

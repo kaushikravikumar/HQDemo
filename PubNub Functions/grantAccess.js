@@ -31,9 +31,9 @@ export default (request, response) => {
             response.status = 200;
             return response.send({});
         });
-    }).catch(() => {
-        console.log('500');
-        response.status = 500;
+    }).catch((error) => {
+        console.log(error);
+        response.status = 400;
         return response.send();
     });
 };
