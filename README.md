@@ -6,7 +6,7 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 
 **Sign up for PubNub click here:**
 
-<a href="https://dashboard.pubnub.com/signup?devrel_gh=YOUR-REPO-NAME">
+<a href="https://dashboard.pubnub.com/signup?devrel_gh=HQDemo">
     <img alt="PubNub Signup" src="https://i.imgur.com/og5DDjf.png" width=260 height=97/>
 </a>
 
