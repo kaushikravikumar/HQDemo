@@ -4,6 +4,12 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 
 # QuickStart
 
+**Sign up for PubNub click here:**
+
+<a href="https://dashboard.pubnub.com/signup?devrel_gh=YOUR-REPO-NAME">
+    <img alt="PubNub Signup" src="https://i.imgur.com/og5DDjf.png" width=260 height=97/>
+</a>
+
 **PubNub Functions Setup**
 1. Sign Up for [PubNub](https://admin.pubnub.com/) and create a new Project. **(It's Free)**
 2. Go to Key Info and enable Presence, PubNub Functions, and Access Manager.
@@ -47,10 +53,3 @@ Project Build.gradle
 
 
 Congrats! You have successfully set up HQ Demo App and it is ready to run.
-
-**Sign up for PubNub click here:**
-
-<a href="https://dashboard.pubnub.com/signup?devrel_gh=YOUR-REPO-NAME">
-    <img alt="PubNub Signup" src="https://i.imgur.com/og5DDjf.png" width=260 height=97/>
-</a>
-
