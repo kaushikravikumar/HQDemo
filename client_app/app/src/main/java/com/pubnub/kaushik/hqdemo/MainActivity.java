@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void initPubNub() {
         PNConfiguration pnConfiguration = new PNConfiguration();
 
-        // Local Device Storage to store user's UUID (Unique User ID)
+        // Local Device Storage to store user's UUID (Universal Unique ID)
         SharedPreferences pref = getApplicationContext().getSharedPreferences("pref", 0);
 
         pnConfiguration.setUuid(pref.getString("uuid", null));
