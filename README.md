@@ -4,7 +4,7 @@ HQ Demo App, built using PubNub Functions to create realtime live game show expe
 
 Admin App            |  Client App
 :-------------------------:|:-------------------------:
-![Admin App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/images/adminappimg.png)  |  ![Client App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/clientappimg.png)
+![Admin App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/images/adminappimg.png)  |  ![Client App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/images/clientappimg.png)
 
 # QuickStart
 
