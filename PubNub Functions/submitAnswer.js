@@ -4,7 +4,7 @@ export default (request) => {
 
     var answer = request.message.nameValuePairs.answer;
 
-    if (answer !== "optionA" || answer !== "optionB" || answer !== "optionC" ||
+    if (answer !== "optionA" && answer !== "optionB" && answer !== "optionC" &&
         answer !== "optionD") {
         response.status = 400;
         return response.send();
