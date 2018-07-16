@@ -2,9 +2,8 @@
 
 HQ Demo App, built using PubNub Functions to create realtime live game show experience for players.
 
-![Admin App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/images/adminappimg.png)
+<img src="images/adminappimg.png" width=200 height=200>
 
-![Client App](https://raw.githubusercontent.com/kaushikravikumar/HQDemo/master/images/clientappimg.png)
 
 # QuickStart
 
