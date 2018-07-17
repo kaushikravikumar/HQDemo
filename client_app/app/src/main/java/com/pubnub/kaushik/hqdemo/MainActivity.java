@@ -162,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showQuestion(PNMessageResult message) {
         questionText = message.getMessage().getAsJsonObject().get("question").getAsString();
-        optionAText = message.getMessage().getAsJsonObject().get("optionA").getAsString();
-        optionBText = message.getMessage().getAsJsonObject().get("optionB").getAsString();
-        optionCText = message.getMessage().getAsJsonObject().get("optionC").getAsString();
-        optionDText = message.getMessage().getAsJsonObject().get("optionD").getAsString();
+        optionAText = message.getMessage().getAsJsonObject().get(OPTION_A).getAsString();
+        optionBText = message.getMessage().getAsJsonObject().get(OPTION_B).getAsString();
+        optionCText = message.getMessage().getAsJsonObject().get(OPTION_C).getAsString();
+        optionDText = message.getMessage().getAsJsonObject().get(OPTION_D).getAsString();
 
         question.setText(questionText);
         question.setVisibility(View.VISIBLE);
@@ -222,13 +222,13 @@ public class MainActivity extends AppCompatActivity {
             correctAnswerMessage += "Sorry, you are wrong. ";
         }
 
-        if (correct.equals("optionA")) {
+        if (correct.equals(OPTION_A)) {
             correctAnswerMessage += optionAText;
-        } else if (correct.equals("optionB")) {
+        } else if (correct.equals(OPTION_B)) {
             correctAnswerMessage += optionBText;
-        } else if (correct.equals("optionC")) {
+        } else if (correct.equals(OPTION_C)) {
             correctAnswerMessage += optionCText;
-        } else if (correct.equals("optionD")) {
+        } else if (correct.equals(OPTION_D)) {
             correctAnswerMessage += optionDText;
         }
         correctAnswerMessage += " was the answer.";
@@ -242,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
      * @param message PNMessageResult object from subscribe callback. Contains data of how many users answered each option.
      */
     private void showAnswerResults(PNMessageResult message) {
-        int countA = message.getMessage().getAsJsonObject().get("optionA").getAsInt();
-        int countB = message.getMessage().getAsJsonObject().get("optionB").getAsInt();
-        int countC = message.getMessage().getAsJsonObject().get("optionC").getAsInt();
-        int countD = message.getMessage().getAsJsonObject().get("optionD").getAsInt();
+        int countA = message.getMessage().getAsJsonObject().get(OPTION_A).getAsInt();
+        int countB = message.getMessage().getAsJsonObject().get(OPTION_B).getAsInt();
+        int countC = message.getMessage().getAsJsonObject().get(OPTION_C).getAsInt();
+        int countD = message.getMessage().getAsJsonObject().get(OPTION_D).getAsInt();
 
         // Enter them backwards since BarEntry ArrayLists work like a stack.
         ArrayList<BarEntry> entries = new ArrayList<>();
