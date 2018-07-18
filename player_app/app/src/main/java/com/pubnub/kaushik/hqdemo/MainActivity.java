@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // NEW QUESTION HAS JUST BEEN POSTED
-                        if (message.getChannel().equals("question_post")) {
+                        if (message.getChannel().equals(Constants.POST_QUESTION_CHANNEL)) {
                             showQuestion(message);
                         }
                         // NEW ANSWER RESULT HAS JUST BEEN POSTED
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         // Used to maintain the current occupancy of the channels,
         // or in other words, players playing the game at the moment.
         pubNub.hereNow()
-                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL, Constants.POST_ANSWER_CHANNEL))
+                .channels(Arrays.asList(Constants.POST_QUESTION_CHANNEL))
                 .includeUUIDs(true)
                 .async(new PNCallback<PNHereNowResult>() {
                     @Override
@@ -288,7 +288,9 @@ public class MainActivity extends AppCompatActivity {
         answerResultsChart.setVisibility(View.VISIBLE);
     }
 
-    /** Uses PubNub fire method to efficiently send user's answer over to submitAnswer channel.
+    /**
+     * Uses PubNub fire method to efficiently send user's answer over to submitAnswer channel.
+     *
      * @param optionChosen this is the option that the user has chosen.
      */
     private void makeRequestToPubNubFunction(final String optionChosen) {
