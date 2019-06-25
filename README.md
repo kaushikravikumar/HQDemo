@@ -1,6 +1,6 @@
 # HQDemo
 
-HQ Demo App, built using PubNub Functions to create realtime live game show experience for players.
+HQ Demo App, built using PubNub Functions to create realtime live game show experience for players. For full tutorial, [click here](https://codeburst.io/how-to-build-your-own-hq-trivia-app-for-android-78ef47bfa0dd)
 
 Admin App            |  Client App
 :-------------------------:|:-------------------------:
